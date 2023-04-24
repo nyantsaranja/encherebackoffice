@@ -64,7 +64,7 @@ function App() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Inter/>}></Route>
-                <Route path="/login" element={<LoginComponent/>}></Route>
+                <Route path="/login/:role" element={<LoginComponent/>}></Route>
                 <Route path="/signup" element={<SignupComponent/>}></Route>
                 <Route path="/logout" element={<Inter/>}></Route>
                 <Route path="/categories"

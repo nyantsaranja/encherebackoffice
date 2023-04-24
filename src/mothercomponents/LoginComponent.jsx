@@ -2,9 +2,12 @@ import {FormChild} from "../childcomponents/FormChild";
 import axios from "axios";
 import {BASE_URL} from "../service/Api-Call";
 import Swal from "sweetalert2";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 export const LoginComponent = () => {
+    const {role} = useParams();
+    console.log(role)
+    const loginUrl=role==="admin"? BASE_URL+"/admin/login":BASE_URL+"/driver/login";
     const navigate=useNavigate();
     const connection = (email, password) => {
         console.log(email, password)
@@ -12,10 +15,10 @@ export const LoginComponent = () => {
             email: email,
             password: password
         }
-        axios.post(`${BASE_URL}/admin/login`,obj).then((response) => {
-                sessionStorage.setItem("admin",response.data.data.users_Id)
-                localStorage.setItem("token",response.data.data.value)
-                window.location.href="categories"
+        axios.post(loginUrl,obj).then((response) => {
+                sessionStorage.setItem("person_id",response.data.data.entity.id)
+                localStorage.setItem("token",response.data.data.token)
+                // window.location.href="/home"+role
             }
         ).catch((error) => {
             Swal.fire({
@@ -28,7 +31,7 @@ export const LoginComponent = () => {
     }
     const parameters = {
         title: "Connexion",
-        subtitle: "Se connecter en tant qu'administrateur",
+        subtitle: "Se connecter comme un "+ (role==="admin" ? "Administrateur" : "Utilisateur"),
         button: {
             value: "Se connecter"
         },
@@ -43,7 +46,7 @@ export const LoginComponent = () => {
             placeholder: "Entrez votre email",
             name: "email",
             className: "form-control myform",
-            value:"admin@gmail.com"
+            value:"ranja@gmail.com"
         },
         {
             label: "Mot de passe",
@@ -51,7 +54,7 @@ export const LoginComponent = () => {
             placeholder: "Entrez votre mot de passe",
             name: "password",
             className: "form-control myform",
-            value: "admin"
+            value: "ranja"
         }
     ]
 
